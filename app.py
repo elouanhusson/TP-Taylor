@@ -98,11 +98,18 @@ if error==True :
 #6
 
 if st.button("Ajouter cet ordre à la comparaison") :
-    if "ordres" not in st.session_state : 
-        st.session_state.ordres=[]
-    st.session_state.ordres.append(n)
+    if "ordres" not in st.session_state :
+        st.session_state.ordres=[] #On ne l'initialise qu'une fois pour avoir une mémoire
+    if n not in st.session_state.ordres : 
+        st.session_state.ordres.append(n) #On ajoute n à la liste
 
-for k in st.session_state.ordres :
-    plt.plot(Y,taylor2(X,f,k))
+fig2,ax2=plt.subplots()
 
-st.pyplot(fig)
+for k in st.session_state.ordres : #Je n'ai pas réussi à enlever le message d'erreur quand on n'a pas encore appuyé sur le bouton
+    ax2.plot(X,taylor2(X,f,k))
+st.pyplot(fig2)
+
+if st.button("Réinitialiser") :
+    for key in st.session_state.keys():
+        del st.session_state[key]
+    st.rerun()

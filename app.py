@@ -74,3 +74,35 @@ st.pyplot(fig)
 
 #Pour n ficé, la qualité de l'approximation diminue lorsqu'on s'éloigne de 0, car le développement en série entière peut être identifié au développement limité de la fonction en 0.
 #Pour ln décalé, lorsqu'on augmente n, l'approximation "décroche" de la courbe initiale, car les polynômes croissent beaucoup plus vite que ln.
+
+#5.1
+
+def taux_coincidence(Y,Y_taylor,seuil):
+    close=np.isclose(Y,Y_taylor,seuil) #Même technique que les questions précédentes
+    return (100*list(close).count(True)/len(close))
+
+with st.sidebar : seuil = st.select_slider("Choisissez le seuil de coïncidence", 10**(-np.linspace(6,2,5)), value=0.001) #On décrit le linspace à l'envers pour avoir un curseur dans un ordre intuitif
+st.caption(taux_coincidence(Y,Y_taylor,seuil))
+
+#La comparaison avec un nan est toujours False : c'est pourquoi, pour ln_decale, le taux est mauvais même à haute approxiation, à cause des x<=-1.
+
+#5.2
+
+error=st.checkbox("Afficher l'erreur ?")
+if error==True :
+    err=np.abs(Y-Y_taylor)
+    ax.plot(X,err)
+    plt.yscale('log')
+    st.pyplot(fig)
+
+#6
+
+if st.button("Ajouter cet ordre à la comparaison") :
+    if "ordres" not in st.session_state : 
+        st.session_state.ordres=[]
+    st.session_state.ordres.append(n)
+
+for k in st.session_state.ordres :
+    plt.plot(Y,taylor2(X,f,k))
+
+st.pyplot(fig)

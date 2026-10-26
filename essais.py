@@ -51,7 +51,7 @@ plt.show()
 
 def taylor2(X, f, n):
     derivees=[f(0)]
-    for k in range(1,n):
+    for k in range(n):
         f=grad(f)
         derivees.append(f(0.))
     return taylor1(X,derivees)
@@ -101,7 +101,6 @@ print(100*list(close).count(True)/len(close))
 #On a calculé ici l'approximation au degré 14 contre au degré 10 pour fig3. 
 #Conséquemment, le ratio de domaine de coïncidence à 10^(-3) est plus élevé (59,5% contre 40,0%).
 
-#4
 
 
 
